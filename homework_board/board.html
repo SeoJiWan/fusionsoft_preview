@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <!-- custom css -->
+  <link rel="stylesheet" href="board.css">
+  <!-- jquery -->
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+  <title>board</title>
+</head>
+
+<body>
+  <div class="container">
+    <!-- header -->
+    <div class="header mt-5">
+      <div class="header-left">
+        총<strong class="text-primary board-length"></strong>건
+      </div>
+      <div class="header-right">
+        <!-- dropdown -->
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle bg-white text-dark" type="button" id="dropdownMenuButton"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            제목
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">내용</a>
+            <a class="dropdown-item" href="#">작성자</a>
+            <a class="dropdown-item" href="#">제목+내용</a>
+          </div>
+        </div>
+        <!-- searchbar -->
+        <div class="searchbar ml-3">
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">검색</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- board-->
+    <table class="table mt-3">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">번호</th>
+          <th scope="col">제목</th>
+          <th scope="col">날짜</th>
+          <th scope="col">조회</th>
+          <th scope="col">첨부</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <!-- buttons -->
+    <div class="btns my-4 d-flex justify-content-between">
+      <div class="btns-left">
+        <button type="button" class="btn btn-secondary">수정</button>
+        <button type="button" class="btn btn-secondary">삭제</button>
+      </div>
+      <div class="btns-right">
+        <button type="button" class="btn btn-primary">목록으로</button>
+        <button type="button" class="btn btn-primary">글쓰기</button>
+      </div>
+    </div>
+
+    <!-- pagenation -->
+    <div class="text-center">
+      <ul id="pagingul">
+      </ul>
+    </div>
+  </div>
+
+  <!-- board json data parsing -->
+  <script>
+    // board_data.json data
+    let dataList;
+    // 서버와 통신하기 위해서 XMLHttpRequest 객체 할당
+    // 이 객체를 사용해서 JSON, XML, HTML, 일반 텍스트 등 다양한 포맷을 주고 받을 수 있음
+    let xhttp = new XMLHttpRequest();
+    // board_data.json을 여는 요청
+    xhttp.open("GET", "board_data.json", true);
+    xhttp.onreadystatechange = function () {
+      // readyState가 4라는 것은 요청에 대한 준비가 되었고 응답할 준비가 되었다는 말
+      // status가 200이라는 것은 http응답 코드가 200이라는 것
+      if (this.readyState == 4 && this.status == 200) {
+        //response 메소드를 통해 JSON 파일에 접근
+        dataList = JSON.parse(this.response);
+        totalData = dataList.length;
+        console.log(dataList.length);
+        // 총 게시글 수 표시
+        document.querySelector('.board-length').textContent = dataList.length;
+      }
+    };
+
+    // ------------------------
+    // 페이징
+    let totalData; //총 데이터 수
+    let dataPerPage = 10; //한 페이지에 나타낼 글 수
+    let pageCount = 10; //페이징에 나타낼 페이지 수
+    let globalCurrentPage = 1; //현재 페이지
+
+    $(document).ready(function () {
+      //글 목록 표시 호출 (테이블 생성)
+      displayData(1, dataPerPage);
+
+      //페이징 표시 호출
+      paging(totalData, dataPerPage, pageCount, 1);
+    });
+
+    function paging(totalData, dataPerPage, pageCount, currentPage) {
+      console.log("currentPage : " + currentPage);
+
+      totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
+
+      if (totalPage < pageCount) {
+        pageCount = totalPage;
+      }
+
+      let pageGroup = Math.ceil(currentPage / pageCount); // 페이지 그룹
+      let last = pageGroup * pageCount; //화면에 보여질 마지막 페이지 번호
+
+      if (last > totalPage) {
+        last = totalPage;
+      }
+
+      let first = last - (pageCount - 1); //화면에 보여질 첫번째 페이지 번호
+      let next = last + 1;
+      let prev = first - 1;
+
+      let pageHtml = "";
+
+      if (prev > 0) {
+        pageHtml += "<li><a href='#' id='prev'> 이전 </a></li>";
+      }
+
+      //페이징 번호 표시 
+      for (var i = first; i <= last; i++) {
+        if (currentPage == i) {
+          pageHtml +=
+            "<li class='on'><a href='#' id='" + i + "'>" + i + "</a></li>";
+        } else {
+          pageHtml += "<li><a href='#' id='" + i + "'>" + i + "</a></li>";
+        }
+      }
+
+      if (last < totalPage) {
+        pageHtml += "<li><a href='#' id='next'> 다음 </a></li>";
+      }
+
+      $("#pagingul").html(pageHtml);
+      let displayCount = "";
+      displayCount = "현재 1 - " + totalPage + " 페이지 / " + totalData + "건";
+      $("#displayCount").text(displayCount);
+
+
+      //페이징 번호 클릭 이벤트 
+      $("#pagingul li a").click(function () {
+        let $id = $(this).attr("id");
+        selectedPage = $(this).text();
+
+        if ($id == "next") selectedPage = next;
+        if ($id == "prev") selectedPage = prev;
+
+        //전역변수에 선택한 페이지 번호를 담는다...
+        globalCurrentPage = selectedPage;
+        //페이징 표시 재호출
+        paging(totalData, dataPerPage, pageCount, selectedPage);
+        //글 목록 표시 재호출
+        displayData(selectedPage, dataPerPage);
+      });
+    }
+
+    //현재 페이지(currentPage)와 페이지당 글 개수(dataPerPage) 반영
+    function displayData(currentPage, dataPerPage) {
+      console.log('displayData 호출');
+
+      // json 데이터 칼럼
+      let cols = ['번호', '제목', '날짜', '조회', '첨부']
+
+      let chartHtml = "";
+
+      //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
+      currentPage = Number(currentPage);
+      dataPerPage = Number(dataPerPage);
+
+      for (var i = (currentPage - 1) * dataPerPage; i < (currentPage - 1) * dataPerPage + dataPerPage; i++) {
+        // console.log(dataList[i]);
+        if (dataList[i] != undefined) {
+          chartHtml += "<tr>"
+          for (j of cols) {
+            // 게시글 정보(번호, 제목, 날짜, 조회, 첨부)를 td 태그에 작성 후 생성한 tr 태그에 노드 추가
+            if (j == '제목') {
+              chartHtml += "<td><a>" + dataList[i][j] + "</a></td>";
+            }
+            else if (j == '첨부') {
+              if (dataList[i][j] == 'Yes') {
+                chartHtml += "<td><img src='img/file.png' alt='첨부' style='width: 20px;'></td>";
+              }
+              else {
+                chartHtml += "<td></td>";
+              }
+            }
+            else {
+              chartHtml += "<td>" + dataList[i][j] + "</td>";
+            }
+          }
+          chartHtml += "</tr>"
+        }
+      }
+      $("tbody").html(chartHtml);
+    }
+    xhttp.send();
+  </script>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

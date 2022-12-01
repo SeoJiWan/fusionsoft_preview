@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <style>
+    .btn {
+      background-color: blue;
+      width: 100px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      border: 1px solid black;
+    }
+
+    img {
+      width: 500px;
+      height: 500px;
+    }
+
+    @media screen and (max-width: 600px) {
+      .btn {
+        background-color: white;
+      }
+    }
+
+    @media screen and (min-width: 600px) and (max-width: 1000px) {
+      .btn {
+        background-color: lawngreen;
+      }
+    }
+
+    @media screen and (min-width: 1000px) {
+      .btn {
+        background-color: black;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="btn">
+    버튼
+  </div>
+  <div class="btn">
+    버튼
+  </div>
+  <div class="btn">
+    버튼
+  </div>
+  <div class="btn">
+    버튼
+  </div>
+  <div class="btn">
+    버튼
+  </div>
+
+  <div class="image">
+    <img src="img/a.png" alt="사진">
+  </div>
+
+  <script>
+    $('.btn').hover(function () {
+      $(this).css({
+        "background": "pink",
+        "transition": "0.7s"
+      })
+    }, function () {
+      $(this).css({
+        "background": "blue",
+        "transition": "0.7s"
+      })
+    });
+
+    $('.image > img').click(function () {
+      $(this).attr('src', 'img/b.jpg')
+    })
+  </script>
+</body>
+
+</html>

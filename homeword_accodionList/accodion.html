@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- custom css -->
+  <link rel="stylesheet" href="accodion.css">
+  <!-- jquery -->
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <title>Accodion</title>
+</head>
+
+<body>
+
+  <div class="container">
+  </div>
+
+  <script>
+    // accodion_data.json data
+    let dataList;
+    // 서버와 통신하기 위해서 XMLHttpRequest 객체 할당
+    // 이 객체를 사용해서 JSON, XML, HTML, 일반 텍스트 등 다양한 포맷을 주고 받을 수 있음
+    let xhttp = new XMLHttpRequest();
+    // accodion_data.json 을 여는 요청
+    xhttp.open("GET", "accodion_data.json", true);
+    xhttp.onreadystatechange = function () {
+      // readyState가 4라는 것은 요청에 대한 준비가 되었고 응답할 준비가 되었다는 말
+      // status가 200이라는 것은 http응답 코드가 200이라는 것
+      if (this.readyState == 4 && this.status == 200) {
+        //response 메소드를 통해 JSON 파일에 접근
+        dataList = JSON.parse(this.response);
+        console.log(dataList.length);
+        displayData2(dataList)
+      }
+    };
+    xhttp.send();
+
+    // accodion_data 로드 
+    // javascript 이용
+    function displayData(dataList) {
+      console.log(dataList);
+      for (let i = 0; i < dataList.length; i++) {
+        // 질문 노드
+        let div1 = document.createElement('div');
+        div1.className = 'question';
+
+        div1.addEventListener("click", function () {
+          console.log(this.nextSibling);
+          if (this.nextSibling.style.display == 'block') {
+            // 선택된 답변이 열려있으면 닫기
+            this.nextSibling.style.display = 'none';
+          }
+          else {
+            // 열려있는 다른 답변 다 닫기
+            $(".answer").css({ "display": "none" })
+            // 선택된 답변 닫혀있으면 열기
+            this.nextSibling.style.display = 'block';
+          }
+        })
+
+        let div2 = document.createElement('div');
+        div2.className = 'question-left';
+        div1.appendChild(div2);
+
+        let img1 = document.createElement('img');
+        img1.setAttribute('src', 'img/question.png');
+        div2.appendChild(img1);
+
+        let div3 = document.createElement('div');
+        div3.textContent = dataList[i].question;
+        div2.appendChild(div3);
+
+        let img2 = document.createElement('img');
+        img2.setAttribute('src', 'img/down-arrow.png');
+        div1.appendChild(img2)
+
+        // 답변 노드
+        let div4 = document.createElement('div');
+        div4.className = 'answer';
+
+        let img3 = document.createElement('img');
+        img3.setAttribute('src', 'img/answer.png');
+        div4.appendChild(img3);
+
+        let div5 = document.createElement('div');
+        div5.textContent = dataList[i].answer;
+        div4.appendChild(div5);
+
+        $(".container").append(div1).append(div4)
+      }
+    }
+
+    // jquery 이용 
+    // $("<div>") : div 를 생성
+    // $("div") : div 를 선택
+    function displayData2(dataList) {
+      console.log(dataList);
+      for (let i = 0; i < dataList.length; i++) {
+        // 질문 노드
+        let div1 = $("<div>").addClass('question').appendTo(".container");
+
+        div1.click(function () {
+          console.log(this.nextSibling);
+          if (this.nextSibling.style.display == 'block') {
+            // 선택된 답변이 열려있으면 닫기
+            this.nextSibling.style.display = 'none';
+            // img  태그 접근하여 화살표 방향 바꾸기
+            this.children[1].setAttribute('src', 'img/down-arrow.png');
+          }
+          else {
+            // 열려있는 다른 답변 다 닫기
+            $(".answer").css({ "display": "none" })
+            // 열려있는 다른 답변 화살표 원상복구
+            $('.arrow').attr('src', 'img/down-arrow.png');
+            // 선택된 답변 닫혀있으면 열기
+            this.nextSibling.style.display = 'block';
+            // img  태그 접근하여 화살표 방향 바꾸기
+            this.children[1].setAttribute('src', 'img/up-arrow.png');
+          }
+        })
+
+        // 'target'.append('source') --> . 뒤의 메소드는 기준이 target --> source 부분에 문자열 형식으로 필요한 태그 속성을 다 적어줘야함 ex) '<div class="container"></div>'
+        // 'source'.appendTo('target') --> . 뒤의 메소드는 기준이 source --> source 에 attr 이든 text든 메서드를 이용해 추가 작업 후 마지막에 target에 append 가능
+        let div2 = $('<div>').addClass('question-left').appendTo(div1);
+        $('<img>').attr('src', 'img/question.png').appendTo(div2);
+        $('<div>').text(dataList[i].question).appendTo(div2);
+        $('<img>').attr('src', 'img/down-arrow.png').addClass('arrow').appendTo(div1);
+
+        // 답변 노드
+        let div4 = $('<div>').addClass('answer').appendTo(".container");
+        $('<img>').attr('src', 'img/answer.png').appendTo(div4);
+        $('<div>').text(dataList[i].answer).appendTo(div4);
+      }
+    }
+  </script>
+
+</body>
+
+</html>

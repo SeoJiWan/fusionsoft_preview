@@ -1,0 +1,38 @@
+h2 {
+  margin: 0;
+}
+
+img {
+  width: 30px;
+  height: 30px;
+}
+
+.container {
+  width: 50%;
+  margin: 60px auto;
+}
+
+.question {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+.question-left {
+  display: flex;
+}
+
+.question-left div {
+  font-size: 20px;
+  margin: 0px 20px 0px 10px;
+}
+
+.answer {
+  display: none;
+  padding: 20px 40px;
+  font-size: 16px;
+  border-bottom: 1px solid lightgray;
+  background-color: floralwhite;
+}
