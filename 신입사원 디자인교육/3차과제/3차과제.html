@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+  <title>Document</title>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- s: modal -->
+    <div class="modal-wrapper">
+      <div class="modal-popup">
+        asdf
+      </div>
+    </div>
+    <!-- e: modal -->
+
+    <div class="container">
+      <div class="none-mobile">
+        <!-- s: header -->
+        <div class="header">
+          <div class="header-left">
+            header-left
+          </div>
+          <div class="header-right">
+            header-right
+          </div>
+        </div>
+        <!-- e: header -->
+    
+        <!-- s: welcome message -->
+        <div class="welcome">
+          welcom message
+        </div>
+        <!-- e: welcome message -->
+    
+        <!-- s: block -->
+        <div class="blocks">
+          <div class="block-row">
+            <div class="block-1">
+              block-1
+            </div>
+            <div class="block-2">
+              block-2
+            </div>
+          </div>
+        
+          <div class="block-row">
+            <div class="block-3">
+              block-3
+            </div>
+            <div class="block-4">
+              block-4
+            </div>
+            <div class="block-5">
+              block-5
+            </div>
+          </div>
+        
+          <div class="block-row">
+            <div class="block-6">
+              block-6
+            </div>
+            <div class="block-7">
+              block-7
+            </div>
+            <div class="block-8">
+              block-8
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- e: block -->
+
+      <div class="mobile">
+        <!-- s: mobile header -->
+        <div class="mobile-header">
+          mobile-header
+        </div>
+        <!-- e: mobile header -->
+
+        <!-- s: mobile banner -->
+        <div class="mobile-banner">
+          mobile-banner
+        </div>
+        <!-- e: mobile banner -->
+
+        <!-- s: mobile block -->
+        <div class="mobile-blocks">
+          <div class="block-row">
+            <div class="block-1">
+              block-1
+            </div>
+            <div class="block-2">
+              block-2
+            </div>
+          </div>
+        
+          <div class="block-row">
+            <div class="block-3">
+              block-3
+            </div>
+            <div class="block-4">
+              block-4
+            </div>
+          </div>
+        
+          <div class="block-row">
+            <div class="block-6">
+              block-6
+            </div>
+            <div class="block-7">
+              block-7
+            </div>
+          </div>
+        </div>
+        </div>
+        <!-- e: mobile block -->
+      </div>
+  
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+      footer
+    </div>
+
+    <!-- mobile footer -->
+    <div class="mobile-footer">
+      footer
+    </div>
+  </div>
+
+  <script>
+    // $(document).ready(function() {
+    //   var block_width = $('.block-1').width();
+    //   console.log(block_width);
+    //   $('.block-row > div').height(block_width)
+    // });
+
+    // $(window).resize(function () {
+    //     var block_width = $('.block-1').width();
+    //     // console.log(block_width);
+    //     $('.block-row > div').height(block_width);
+    //     $('.welcome').height(block_width-136);
+
+    // })
+    
+    // modal
+    $('.block-6').click(function() {
+      console.log('modal');
+      $('.modal-wrapper').css('display', 'block');
+    })
+
+    // mobile block heigt define
+    $(document).ready(function() {
+      var block_width = $('.mobile-blocks .block-1').width();
+      console.log(block_width);
+      $('.mobile-blocks .block-row > div').height(block_width)
+    });
+
+    $(window).resize(function () {
+        var block_width = $('.mobile-blocks .block-1').width();
+        // console.log(block_width);
+        $('.mobile-blocks .block-row > div').height(block_width);
+    })
+    
+  </script>
+</body>
+</html>

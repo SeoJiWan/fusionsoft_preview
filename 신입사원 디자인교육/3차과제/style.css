@@ -1,0 +1,160 @@
+body {
+  margin: 0px;
+  background-image: url('images/노란전구_컴퓨터_배경화면.jpg');
+  /* background-size: 100% 48.8%; */
+  background-size: 100% 640px;
+  background-repeat: no-repeat;
+}
+
+.wrapper {
+  /* width: 100vw; */
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.container {
+  width: 1008px;
+  margin: 0 auto;
+}
+
+.none-mobile .header {
+  display: flex;
+  justify-content: space-between;
+  height: 104px;
+}
+
+.none-mobile .header-left {
+  background-color: white;
+  width: 750px;
+}
+
+.none-mobile .header-right {
+  background-color: orange;
+  width: 250px;
+}
+
+.none-mobile .welcome {
+  height: 200px;
+}
+
+.none-mobile .block-row {
+  display: flex;
+}
+
+.none-mobile .block-row > div {
+  /* width: calc(100% / 3); */
+  width: 336px ;
+  height: 336px;
+}
+
+.block-1 {
+  background-color: white;
+}
+
+.block-2 {
+  background-color: orange;
+}
+
+.block-3 {
+  background-color: antiquewhite;
+}
+
+.block-4 {
+  background-color: aquamarine;
+}
+
+.block-5 {
+  background-color: darkcyan;
+}
+
+.block-6 {
+  background-color: chartreuse;
+}
+
+.block-7 {
+  background-color: gold;
+}
+
+.block-8 {
+  background-color: firebrick;
+}
+
+/* footer */
+.footer {
+  width: 100%;
+  height: 190px;
+  background-color: black;
+  margin-top: 100px;
+}
+
+/* modal */
+.modal-wrapper {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+}
+
+/* mobile */
+.mobile {
+  display: none;
+}
+
+.mobile-footer {
+  display: none;
+  height: 30px;
+  width: 100vw;
+  background-color: black;
+  color:white;
+}
+
+.mobile-header {
+  width: 100vw;
+  height: 50px;
+  background-color: black;
+  color: white
+}
+
+.mobile-banner {
+  background-image: url('images/노란전구_컴퓨터_배경화면.jpg');
+  height: 190px;
+  background-repeat: no-repeat;
+  background-size: 100vw 190px;
+}
+
+.mobile-blocks .block-row{
+  display: flex;
+}
+
+.mobile-blocks .block-row > div {
+  width: 50vw;
+}
+@media screen and (min-width: 320px) and (max-width: 600px) {
+  .none-mobile,
+  .footer {
+    display: none;
+  }
+
+  body {
+    background-image: none;
+  }
+
+  .container {
+    width: 100vw;
+  }
+
+  .mobile {
+    display: block;
+  }
+
+  .mobile-footer {
+    display: block;
+  }
+  
+}

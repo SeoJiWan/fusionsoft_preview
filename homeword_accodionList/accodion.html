@@ -13,7 +13,6 @@
 </head>
 
 <body>
-
   <div class="container">
   </div>
 
@@ -124,7 +123,7 @@
         // 'target'.append('source') --> . 뒤의 메소드는 기준이 target --> source 부분에 문자열 형식으로 필요한 태그 속성을 다 적어줘야함 ex) '<div class="container"></div>'
         // 'source'.appendTo('target') --> . 뒤의 메소드는 기준이 source --> source 에 attr 이든 text든 메서드를 이용해 추가 작업 후 마지막에 target에 append 가능
         let div2 = $('<div>').addClass('question-left').appendTo(div1);
-        $('<img>').attr('src', 'img/question.png').appendTo(div2);
+        $('<img>').attr('src', 'img/question.png').addClass('img-inline').appendTo(div2);
         $('<div>').text(dataList[i].question).appendTo(div2);
         $('<img>').attr('src', 'img/down-arrow.png').addClass('arrow').appendTo(div1);
 
